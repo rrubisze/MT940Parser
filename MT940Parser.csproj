@@ -6,4 +6,15 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Raptorious.SharpMt940Lib\**" />
+    <EmbeddedResource Remove="Raptorious.SharpMt940Lib\**" />
+    <None Remove="Raptorious.SharpMt940Lib\**" />
+    <Page Remove="Raptorious.SharpMt940Lib\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="Raptorious.SharpMt940Lib\Raptorious.SharpMt940Lib.csproj" />
+  </ItemGroup>
+
 </Project>
