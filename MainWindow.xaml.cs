@@ -31,6 +31,17 @@ namespace MT940Parser
             ProcessCsvFile("C:/Users/rafal.rubiszewski/Desktop/Statement_2453037398_31-01-2020_No1.sta");
         }
 
+        private void ImagePanel_Drop(object sender, DragEventArgs e)
+        {
+
+          if (e.Data.GetDataPresent(DataFormats.FileDrop))
+          {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+            ProcessCsvFile(files[0]);
+          }
+        }
+
         private static void ProcessCsvFile(string mt940FilePath)
         {
             var cultureInfo = new CultureInfo("pl-PL"); // ABN-AMRO uses decimal comma; https://en.wikipedia.org/wiki/Decimal_mark#Countries_using_Arabic_numerals_with_decimal_comma

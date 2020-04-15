@@ -7,6 +7,18 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="8*" />
+        </Grid.ColumnDefinitions>
+		  <Grid.RowDefinitions>
+			<RowDefinition Height="8*" />
+			<RowDefinition Height="2*" />
+		  </Grid.RowDefinitions>
+        <StackPanel Grid.Row ="0" Orientation="Vertical" Grid.Column="0" Name="ImagePanel" Drop="ImagePanel_Drop" AllowDrop="true" Background="DarkGray">
+            <Label FontSize="20" VerticalAlignment="Bottom" HorizontalAlignment="Center">Drop file here </Label>
+        </StackPanel>
+        <StackPanel>
+            <Label Name="Info"></Label>        
+        </StackPanel>
     </Grid>
 </Window>
