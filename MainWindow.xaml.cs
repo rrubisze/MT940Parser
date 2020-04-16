@@ -28,21 +28,40 @@ namespace MT940Parser
             InitializeComponent();
             System.Text.EncodingProvider provider = System.Text.CodePagesEncodingProvider.Instance;
             Encoding.RegisterProvider(provider);
-            ProcessCsvFile("C:/Users/rafal.rubiszewski/Desktop/Statement_2453037398_31-01-2020_No1.sta");
         }
 
-        private void ImagePanel_Drop(object sender, DragEventArgs e)
+        private async void ImagePanel_Drop(object sender, DragEventArgs e)
         {
+            this.Info.Content = "";
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                if(files.Count() > 1 )
+                {
+                    this.Info.Content = "You can drop only one file";
+                    return;
+                }
 
-          if (e.Data.GetDataPresent(DataFormats.FileDrop))
-          {
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-
-            ProcessCsvFile(files[0]);
-          }
+                try
+                {
+                    if(System.IO.Path.GetExtension(files[0]) != ".sta")
+                    {
+                        this.Info.Content = "Wrong file extension. It must be .sta!";
+                        return;
+                    }
+                    await ProcessCsvFile(files[0]);
+                    this.Info.Content = "";
+                }
+                catch(Exception ex)
+                {
+                    this.Info.Content = ex.Message;
+                    return;
+                }
+            
+            }
         }
 
-        private static void ProcessCsvFile(string mt940FilePath)
+        private async static Task ProcessCsvFile(string mt940FilePath)
         {
             var cultureInfo = new CultureInfo("pl-PL"); // ABN-AMRO uses decimal comma; https://en.wikipedia.org/wiki/Decimal_mark#Countries_using_Arabic_numerals_with_decimal_comma
             var parameters = new Parameters();
@@ -57,14 +76,20 @@ namespace MT940Parser
 
             var reports = GenerateReports(statements);
 
-            using (var writer = new StreamWriter("C:/Users/rafal.rubiszewski/Desktop/MagicFile.csv", false, Encoding.GetEncoding("ibm852")))
+            var output = System.IO.Path.ChangeExtension(mt940FilePath, "csv");
+
+            using (var writer = new StreamWriter(output, false, Encoding.GetEncoding("ibm852")))
             {
-                writer.WriteLine(reports.First().Summary.GetCSVHeader());
-                writer.WriteLine(reports.First().Summary.GetCSVRow());
-                writer.WriteLine(reports.First().Transactions.First().GetCSVHeader());
-                foreach (var trans in reports.First().Transactions)
+                foreach(var report in reports)
                 {
-                    writer.WriteLine(trans.GetCSVRow());
+                    await writer.WriteLineAsync(report.Summary.GetCSVHeader());
+                    await writer.WriteLineAsync(report.Summary.GetCSVRow());
+                    await writer.WriteLineAsync(report.Transactions.First().GetCSVHeader());
+                    foreach (var trans in reports.First().Transactions)
+                    {
+                        await writer.WriteLineAsync(trans.GetCSVRow());
+                    }
+                    await writer.WriteLineAsync(Environment.NewLine);
                 }
             }
         }
@@ -81,9 +106,9 @@ namespace MT940Parser
                 {
                     var summary = new Summary
                     {
-                        OpeningBalance = statement.OpeningBalance,
-                        ClosingBalance = statement.ClosingBalance,
-                        ClosingAvailableBalance = statement.ClosingAvailableBalance,
+                        OpeningBalance = statement.OpeningBalance.Balance.Value,
+                        ClosingBalance = statement.ClosingBalance.Balance.Value,
+                        ClosingAvailableBalance = statement.ClosingAvailableBalance.Balance.Value,
                         BlockedBalance = statement.ClosingBalance.Balance.Value - statement.ClosingAvailableBalance.Balance.Value,
                         Account = statement.Account.Replace("/", ""),
                         Description = $"\"{summarrRow.Details.Description}\"",

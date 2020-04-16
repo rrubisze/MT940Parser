@@ -14,10 +14,12 @@
 			<RowDefinition Height="8*" />
 			<RowDefinition Height="2*" />
 		  </Grid.RowDefinitions>
-        <StackPanel Grid.Row ="0" Orientation="Vertical" Grid.Column="0" Name="ImagePanel" Drop="ImagePanel_Drop" AllowDrop="true" Background="DarkGray">
-            <Label FontSize="20" VerticalAlignment="Bottom" HorizontalAlignment="Center">Drop file here </Label>
-        </StackPanel>
-        <StackPanel>
+        <Border Grid.Row ="0" Grid.Column="0"  BorderThickness="2" CornerRadius="10" Background="Green">
+            <StackPanel Orientation="Vertical" Name="ImagePanel" Drop="ImagePanel_Drop" AllowDrop="true" >
+                <Label FontSize="20" VerticalAlignment="Bottom" HorizontalAlignment="Center">Please drop .sta file here, to generate CSV file with same name...</Label>
+            </StackPanel>
+        </Border>
+        <StackPanel Grid.Row="1" Grid.Column="1">
             <Label Name="Info"></Label>        
         </StackPanel>
     </Grid>

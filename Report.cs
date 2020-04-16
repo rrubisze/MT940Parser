@@ -26,9 +26,9 @@ namespace MT940Parser
 
     public class Summary : ICSV
     {
-        public TransactionBalance OpeningBalance { get; set; }
-        public TransactionBalance ClosingBalance { get; set; }
-        public TransactionBalance ClosingAvailableBalance { get; set; }
+        public decimal OpeningBalance { get; set; }
+        public decimal ClosingBalance { get; set; }
+        public decimal ClosingAvailableBalance { get; set; }
         public decimal BlockedBalance { get; set; }
         public string Account { get; set; }
         public string Description { get; set; }
