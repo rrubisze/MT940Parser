@@ -1,4 +1,5 @@
-﻿using Raptorious.SharpMt940Lib;
+﻿using MahApps.Metro.Controls;
+using Raptorious.SharpMt940Lib;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -21,7 +22,7 @@ namespace MT940Parser
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         public MainWindow()
         {
