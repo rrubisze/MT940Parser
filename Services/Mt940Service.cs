@@ -15,7 +15,7 @@ namespace MT940Parser.Services
     public class Mt940Service
     {
 
-        private async static Task ProcessCsvFile(string mt940FilePath)
+        public async Task ProcessCsvFile(string mt940FilePath)
         {
             var cultureInfo = new CultureInfo("pl-PL"); // ABN-AMRO uses decimal comma; https://en.wikipedia.org/wiki/Decimal_mark#Countries_using_Arabic_numerals_with_decimal_comma
             var parameters = new Parameters();
@@ -30,7 +30,7 @@ namespace MT940Parser.Services
 
             var reports = GenerateReports(statements);
 
-            var output = System.IO.Path.ChangeExtension(mt940FilePath, "csv");
+            var output = Path.ChangeExtension(mt940FilePath, "csv");
 
             using (var writer = new StreamWriter(output, false, Encoding.GetEncoding("ibm852")))
             {
@@ -50,7 +50,7 @@ namespace MT940Parser.Services
             }
         }
 
-        private static IEnumerable<Report> GenerateReports(ICollection<CustomerStatementMessage> statements)
+        public static IEnumerable<Report> GenerateReports(ICollection<CustomerStatementMessage> statements)
         {
             ICollection<Report> reports = new List<Report>();
             foreach (var statement in statements)
