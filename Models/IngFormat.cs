@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MT940Parser
+namespace MT940Parser.Models
 {
     public class IngFormat : IMt940Format
     {

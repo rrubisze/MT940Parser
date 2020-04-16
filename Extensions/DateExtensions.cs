@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MT940Parser
+namespace MT940Parser.Extensions
 {
     public static class DateExtensions
     {

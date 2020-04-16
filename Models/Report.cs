@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MT940Parser
+namespace MT940Parser.Models
 {
 
     public interface ICSV

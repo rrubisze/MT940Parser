@@ -14,8 +14,22 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="appSettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appSettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="JetBrains.Annotations" Version="2020.1.0" />
     <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0748" />
     <PackageReference Include="MahApps.Metro.IconPacks" Version="3.7.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.1.3" />
   </ItemGroup>
 
   <ItemGroup>
