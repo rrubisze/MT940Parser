@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MT940Parser.Extensions;
+using MT940Parser.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -18,9 +20,16 @@ namespace MT940Parser.Views
     /// </summary>
     public partial class ReportView : Page
     {
+        private ReportViewModel _viewModel;
+
         public ReportView()
         {
             InitializeComponent();
+            using (var serviceScope = Resolver.GetScope())
+            {
+                _viewModel = (ReportViewModel)serviceScope.ServiceProvider.GetService(typeof(ReportViewModel));
+            }
+            this.DataContext = _viewModel;
         }
     }
 }

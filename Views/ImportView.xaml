@@ -4,9 +4,20 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:MT940Parser.Views"
-      xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+      xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls" xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
       mc:Ignorable="d" 
       Title="ImportView">
+    <Page.Resources>
+        <ResourceDictionary>
+            <Style x:Key="LargeTileStyle" TargetType="Controls:Tile">
+                <Setter Property="Height" Value="125" />
+                <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
+                <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
+                <Setter Property="TitleFontSize" Value="14" />
+                <Setter Property="Width" Value="300" />
+            </Style>
+        </ResourceDictionary>
+    </Page.Resources>
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="5*"></ColumnDefinition>
@@ -14,21 +25,33 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"></RowDefinition>
-            <RowDefinition Height="6*"></RowDefinition>
+            <RowDefinition Height="3*"></RowDefinition>
+            <RowDefinition Height="3*"></RowDefinition>
             <RowDefinition Height="2*"></RowDefinition>
         </Grid.RowDefinitions>
-        <Border Grid.Row="1" Grid.Column="0" Margin="30,50,30,50" BorderThickness="2" CornerRadius="10" Background="Gray" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <StackPanel 
+        <!-- First column -->
+        <Border Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" Margin="30,50,30,50" BorderThickness="2" CornerRadius="10" Background="Gray" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid 
                 HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch" 
-                Orientation="Vertical" 
+                VerticalAlignment="Stretch"
                 Name="DropContainer"  
                 Drop="DropContainer_Drop" 
-                AllowDrop="true" >
-                <Viewbox>
-                    <Label VerticalAlignment="Bottom" HorizontalAlignment="Center">Please drop .sta file here, to generate CSV file with same name...</Label>
-                </Viewbox>
-            </StackPanel>
+                AllowDrop="true">
+                <StackPanel Orientation="Vertical"
+                            VerticalAlignment="Center" 
+                            HorizontalAlignment="Center">
+                    <iconPacks:PackIconModern Width="25" 
+                                              Height="25" 
+                                              HorizontalAlignment="Center" 
+                                              Kind="Folder"></iconPacks:PackIconModern>
+                    <TextBlock 
+                    FontSize="12" 
+                    VerticalAlignment="Center" 
+                    TextWrapping="WrapWithOverflow"
+                    ClipToBounds="True"
+                    HorizontalAlignment="Center">Please drop .sta file here, to generate CSV file with same name...</TextBlock>
+                </StackPanel>
+            </Grid>
         </Border>
         <!-- Second column -->
         <StackPanel Grid.Row="0" 
@@ -37,10 +60,12 @@
                     Orientation="Vertical">
             <Button HorizontalAlignment="Stretch"
                     Content="Chose file..."
+                    Margin="0,2,0,2"
                     Command="{Binding ChooseFileCommand}"
                     Style="{DynamicResource MahApps.Styles.Button.AccentedSquare}" />
             <Button HorizontalAlignment="Stretch"
                     Content="Clear"
+                    Margin="0,2,0,2"
                     Command="{Binding ClearCommand}"
                     Style="{DynamicResource MahApps.Styles.Button.AccentedSquare}" />
             <Viewbox>
@@ -54,14 +79,29 @@
                     Margin="5,10,5,5"
                     Orientation="Vertical" 
                     HorizontalAlignment="Stretch">
-            <Label FontSize="16" Content="Import progress:"></Label>
+            <Label FontSize="16" Content="Importing..."></Label>
             <Controls:MetroProgressBar HorizontalAlignment="Stretch" Value="{Binding ImportProgress}" Height="15"/>
         </StackPanel>
 
         <StackPanel Grid.Row="2" 
+                    Grid.RowSpan="2"
                     Grid.Column="1" 
                     Orientation="Vertical"
                     Margin="5,10,5,5">
+            <Controls:Tile Title="Imported"
+                           Background="Green"
+                           Style="{StaticResource LargeTileStyle}">
+                <iconPacks:FontAwesome    Width="40"
+                                          Height="40"
+                                          Kind="CheckCircleSolid" />
+            </Controls:Tile>
+            <Controls:Tile Title="Error"
+                           Background="Red"
+                           Style="{StaticResource LargeTileStyle}">
+                <iconPacks:FontAwesome    Width="40"
+                                          Height="40"
+                                          Kind="TimesCircleSolid" />
+            </Controls:Tile>
             <Viewbox>
                 <Label Content="{Binding ErrorMessage}"></Label>
             </Viewbox>

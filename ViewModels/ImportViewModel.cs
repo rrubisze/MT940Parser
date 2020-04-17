@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using MT940Parser.Commands;
+using MT940Parser.Context;
 using MT940Parser.Services;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace MT940Parser.ViewModels
     public class ImportViewModel: BaseViewModel
     {   
         private readonly Mt940Service _mt940Service;
+        private readonly ParserContext _context;
         private string _errorMessage;
         private int _importProgress;
         private string _filePath;
@@ -40,10 +42,10 @@ namespace MT940Parser.ViewModels
         }
         #endregion
 
-        public ImportViewModel(Mt940Service mt940Service)
+        public ImportViewModel(Mt940Service mt940Service, ParserContext context)
         {
             _mt940Service = mt940Service;
-
+            _context = context;
             this.DropFileCommand = new CustomCommand<string[]>(DropFileAsync);
             this.ChooseFileCommand = new CustomCommand(ChooseFileAsync);
             this.ClearCommand = new CustomCommand(Clear);
@@ -100,6 +102,7 @@ namespace MT940Parser.ViewModels
 
                 var reports = _mt940Service.GenerateReports(statemenets);
                 ImportProgress = 66;
+                _context["Reports"] = reports;
 
                 var output = Path.ChangeExtension(filePath, "csv");
                 await _mt940Service.GenerateReportCSV(reports, output);

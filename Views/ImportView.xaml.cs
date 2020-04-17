@@ -25,8 +25,6 @@ namespace MT940Parser.Views
         public ImportView()
         {
             InitializeComponent();
-            System.Text.EncodingProvider provider = System.Text.CodePagesEncodingProvider.Instance;
-            Encoding.RegisterProvider(provider);
             using (var serviceScope = Resolver.GetScope())
             {
                 _viewModel = (ImportViewModel)serviceScope.ServiceProvider.GetService(typeof(ImportViewModel));

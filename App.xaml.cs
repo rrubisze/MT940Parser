@@ -4,13 +4,9 @@ using MT940Parser.Extensions;
 using MT940Parser.Services;
 using MT940Parser.ViewModels;
 using MT940Parser.Views;
+using MT940Parser.Context;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace MT940Parser
@@ -49,6 +45,9 @@ namespace MT940Parser
             services.AddScoped<MainWindowViewModel>();
             services.AddScoped<ImportViewModel>();
             services.AddScoped<ReportViewModel>();
+
+            // Context
+            services.AddSingleton<ParserContext>();
         }
     }
 }

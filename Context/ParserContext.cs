@@ -1,0 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace MT940Parser.Context
+{
+    public class ParserContext
+    {
+        private Dictionary<string, object> dict = new Dictionary<string, object>();
+        public object this[string i]
+        {
+            get => dict[i];
+            set => dict[i] = value;
+        }
+    }
+}
