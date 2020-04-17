@@ -18,6 +18,8 @@ namespace MT940Parser.ViewModels
         private string _errorMessage;
         private int _importProgress;
         private string _filePath;
+        private bool _isImportFinish;
+        private bool _isParsingError;
 
         #region - Commands -
         public CustomCommand<string[]> DropFileCommand { get; }
@@ -40,6 +42,17 @@ namespace MT940Parser.ViewModels
             get => _filePath;
             set => Set(ref _filePath, value);
         }
+        public bool IsImportFinish
+        {
+            get => _isImportFinish;
+            set => Set(ref _isImportFinish, value);
+        }
+        public bool IsParsingError
+        {
+            get => _isParsingError;
+            set => Set(ref _isParsingError, value);
+        }
+
         #endregion
 
         public ImportViewModel(Mt940Service mt940Service, ParserContext context)
@@ -56,6 +69,8 @@ namespace MT940Parser.ViewModels
 
         private async Task ChooseFileAsync()
         {
+            IsImportFinish = false;
+
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "STA files (*.sta)|*.sta|All files (*.*)|*.*";
             if (openFileDialog.ShowDialog() == true)
@@ -71,14 +86,20 @@ namespace MT940Parser.ViewModels
         private Task Clear()
         {
             FilePath = "";
+            IsParsingError = false;
+            IsImportFinish = false;
+            ImportProgress = 0;
+
             return Task.CompletedTask;
         }
 
         private async Task DropFileAsync(string[] files)
         {
+            IsImportFinish = false;
             if (files.Count() > 1)
             {
                 ErrorMessage = "You can drop only one file";
+                IsParsingError = true;
                 return;
             }
             var file = files[0];
@@ -94,6 +115,7 @@ namespace MT940Parser.ViewModels
                 if (Path.GetExtension(filePath) != ".sta")
                 {
                     ErrorMessage = "Wrong file extension. It must be .sta!";
+                    IsParsingError = true;
                     return;
                 }
                 FilePath = filePath;
@@ -109,9 +131,12 @@ namespace MT940Parser.ViewModels
                 ImportProgress = 100;
 
                 ErrorMessage = "";
+                IsParsingError = false;
+                IsImportFinish = true;
             }
             catch (Exception ex)
             {
+                IsParsingError = true;
                 ErrorMessage = ex.Message;
                 return;
             }

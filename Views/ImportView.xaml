@@ -4,7 +4,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:MT940Parser.Views"
-      xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls" xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+      xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls" xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks" 
+      xmlns:converter="clr-namespace:MT940Parser.Converter"
       mc:Ignorable="d" 
       Title="ImportView">
     <Page.Resources>
@@ -16,6 +17,8 @@
                 <Setter Property="TitleFontSize" Value="14" />
                 <Setter Property="Width" Value="300" />
             </Style>
+            <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
+            <converter:InvertBooleanToVisibilityConverter x:Key="InvertBooleanToVisibility"/>
         </ResourceDictionary>
     </Page.Resources>
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -87,22 +90,25 @@
                     Grid.RowSpan="2"
                     Grid.Column="1" 
                     Orientation="Vertical"
+                    Visibility="{Binding IsImportFinish, Converter={StaticResource BoolToVisibility}}"
                     Margin="5,10,5,5">
             <Controls:Tile Title="Imported"
                            Background="Green"
+                           Visibility="{Binding IsParsingError, Converter={StaticResource InvertBooleanToVisibility}}"
                            Style="{StaticResource LargeTileStyle}">
                 <iconPacks:FontAwesome    Width="40"
                                           Height="40"
                                           Kind="CheckCircleSolid" />
             </Controls:Tile>
             <Controls:Tile Title="Error"
+                           Visibility="{Binding IsParsingError, Converter={StaticResource BooleanToVisibilityConverter}}"
                            Background="Red"
                            Style="{StaticResource LargeTileStyle}">
                 <iconPacks:FontAwesome    Width="40"
                                           Height="40"
                                           Kind="TimesCircleSolid" />
             </Controls:Tile>
-            <Viewbox>
+            <Viewbox Visibility="{Binding IsParsingError, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Label Content="{Binding ErrorMessage}"></Label>
             </Viewbox>
         </StackPanel>
