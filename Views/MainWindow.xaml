@@ -6,49 +6,28 @@
         xmlns:local="clr-namespace:MT940Parser"
         mc:Ignorable="d"
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
-        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks" 
+        xmlns:views="clr-namespace:MT940Parser.Views"
         GlowBrush="{DynamicResource AccentColorBrush}"
         Title="MainWindow" Height="450" Width="800">
-    <Controls:MetroWindow.RightWindowCommands>
-        <Controls:WindowCommands>
-            <Button>
-                <StackPanel Orientation="Horizontal">
-                    <iconPacks:PackIconModern Width="24" Height="24" Kind="FoodCupcake" />
-                    <TextBlock Margin="4 0 0 0" VerticalAlignment="Center" Text="deploy cupcakes" />
-                </StackPanel>
-            </Button>
-        </Controls:WindowCommands>
-    </Controls:MetroWindow.RightWindowCommands>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="5*" />
-            <ColumnDefinition Width="5*" />
-        </Grid.ColumnDefinitions>
-		  <Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="2*" />
-            <RowDefinition Height="*"/>
+    <Grid
+        VerticalAlignment="Stretch" 
+        HorizontalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <Controls:MetroAnimatedSingleRowTabControl x:Name="MainTabControl" Grid.Row="1">
-            <TabItem Header="Importing">
-                <StackPanel Orientation="Vertical" Name="ImagePanel" Drop="ImagePanel_Drop" AllowDrop="true" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch">
-                    <Label FontSize="20" VerticalAlignment="Bottom" HorizontalAlignment="Center">Please drop .sta file here, to generate CSV file with same name...</Label>
-                </StackPanel>
+        <Controls:MetroAnimatedSingleRowTabControl VerticalContentAlignment="Bottom" 
+                                                   HorizontalContentAlignment="Right"
+                                                   x:Name="MainTabControl" 
+                                                   Grid.Row="0" 
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch">
+            <TabItem  Header="Importing" VerticalContentAlignment="Stretch" Height="Auto" HorizontalContentAlignment="Stretch">
+                <Frame Source="ImportView.xaml"></Frame>
             </TabItem>
-            <TabItem Header="text">
-                <ScrollViewer Margin="2"
-                              HorizontalScrollBarVisibility="Auto"
-                              VerticalScrollBarVisibility="Auto">
-                </ScrollViewer>
+            <TabItem Header="Report">
+                <Frame HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="ReportView.xaml"></Frame>
             </TabItem>
         </Controls:MetroAnimatedSingleRowTabControl>
-        <!--<Border Grid.Row ="0" Grid.Column="0"  BorderThickness="2" CornerRadius="10" Background="Green">
-            <StackPanel Orientation="Vertical" Name="ImagePanel" Drop="ImagePanel_Drop" AllowDrop="true" >
-                <Label FontSize="20" VerticalAlignment="Bottom" HorizontalAlignment="Center">Please drop .sta file here, to generate CSV file with same name...</Label>
-            </StackPanel>
-        </Border>
-        <StackPanel Grid.Row="1" Grid.Column="1">
-            <Label Name="Info"></Label>        
-        </StackPanel>-->
     </Grid>
 </Controls:MetroWindow>

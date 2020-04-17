@@ -11,39 +11,9 @@ namespace MT940Parser.ViewModels
 {
     public class MainWindowViewModel: BaseViewModel
     {
-        private readonly Mt940Service _mt940Service;
 
-        public CustomCommand<string[]> DropFileCommand { get; }
-
-        public MainWindowViewModel(Mt940Service mt940Service)
+        public MainWindowViewModel()
         {
-            _mt940Service = mt940Service;
-            this.DropFileCommand = new CustomCommand<string[]>(DropFile);
-        }
-
-        private async Task DropFile(string[] files)
-        {
-            if (files.Count() > 1)
-            {
-                //this.Info.Content = "You can drop only one file";
-                return;
-            }
-
-            try
-            {
-                if (System.IO.Path.GetExtension(files[0]) != ".sta")
-                {
-                    //this.Info.Content = "Wrong file extension. It must be .sta!";
-                    return;
-                }
-                await _mt940Service.ProcessCsvFile(files[0]);
-                //this.Info.Content = "";
-            }
-            catch (Exception ex)
-            {
-                //this.Info.Content = ex.Message;
-                return;
-            }
         }
     }
 }

@@ -15,9 +15,9 @@ namespace MT940Parser.Services
     public class Mt940Service
     {
 
-        public async Task ProcessCsvFile(string mt940FilePath)
+        public ICollection<CustomerStatementMessage> GenerateStatements(string mt940FilePath)
         {
-            var cultureInfo = new CultureInfo("pl-PL"); // ABN-AMRO uses decimal comma; https://en.wikipedia.org/wiki/Decimal_mark#Countries_using_Arabic_numerals_with_decimal_comma
+            var cultureInfo = new CultureInfo("pl-PL");
             var parameters = new Parameters();
 
             parameters.AddCodeFor(TransactionDetail.Account, "~29", "~30", "~31", "~38");
@@ -26,31 +26,10 @@ namespace MT940Parser.Services
             parameters.AddCodeFor(TransactionDetail.Name, "~32", "~33", "~62", "~63");
             parameters.AddCodeFor(TransactionDetail.Empty, "073");
 
-            ICollection<CustomerStatementMessage> statements = Mt940Parser.Parse(new IngFormat(), mt940FilePath, cultureInfo, parameters);
-
-            var reports = GenerateReports(statements);
-
-            var output = Path.ChangeExtension(mt940FilePath, "csv");
-
-            using (var writer = new StreamWriter(output, false, Encoding.GetEncoding("ibm852")))
-            {
-                foreach (var report in reports)
-                {
-                    await writer.WriteLineAsync(report.Summary.GetCSVHeader());
-                    await writer.WriteLineAsync(report.Summary.GetCSVRow());
-
-                    await writer.WriteLineAsync(report.Transactions.First().GetCSVHeader());
-                    
-                    foreach (var trans in report.Transactions)
-                    {
-                        await writer.WriteLineAsync(trans.GetCSVRow());
-                    }
-                    await writer.WriteLineAsync(Environment.NewLine);
-                }
-            }
+            return Mt940Parser.Parse(new IngFormat(), mt940FilePath, cultureInfo, parameters);         
         }
 
-        public static IEnumerable<Report> GenerateReports(ICollection<CustomerStatementMessage> statements)
+        public IEnumerable<Report> GenerateReports(ICollection<CustomerStatementMessage> statements)
         {
             ICollection<Report> reports = new List<Report>();
             foreach (var statement in statements)
@@ -96,6 +75,27 @@ namespace MT940Parser.Services
                 reports.Add(currentStatement);
             }
             return reports;
+        }
+
+        public async Task GenerateReportCSV(IEnumerable<Report> reports, string outputPath)
+        {
+ 
+            using (var writer = new StreamWriter(outputPath, false, Encoding.GetEncoding("ibm852")))
+            {
+                foreach (var report in reports)
+                {
+                    await writer.WriteLineAsync(report.Summary.GetCSVHeader());
+                    await writer.WriteLineAsync(report.Summary.GetCSVRow());
+
+                    await writer.WriteLineAsync(report.Transactions.First().GetCSVHeader());
+
+                    foreach (var trans in report.Transactions)
+                    {
+                        await writer.WriteLineAsync(trans.GetCSVRow());
+                    }
+                    await writer.WriteLineAsync(Environment.NewLine);
+                }
+            }
         }
     }
 }

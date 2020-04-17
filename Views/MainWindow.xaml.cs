@@ -35,14 +35,5 @@ namespace MT940Parser.Views
             this.DataContext = _viewModel;
         }
 
-        private async void ImagePanel_Drop(object sender, DragEventArgs e)
-        {
-            //this.Info.Content = "";
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-                await _viewModel.DropFileCommand.ExecuteAsync(files);            
-            }
-        }
     }
 }

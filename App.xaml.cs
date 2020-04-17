@@ -47,6 +47,8 @@ namespace MT940Parser
 
             // ViewModels
             services.AddScoped<MainWindowViewModel>();
+            services.AddScoped<ImportViewModel>();
+            services.AddScoped<ReportViewModel>();
         }
     }
 }
