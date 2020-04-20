@@ -9,6 +9,26 @@
       Title="ReportView">
 
     <Grid>
-        <Label Content="Reports" FontSize="22"></Label>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
+            <RowDefinition Height="5*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Viewbox Stretch="UniformToFill" Grid.Row="0">
+            <Label Content="Reports"></Label>
+        </Viewbox>
+        <!--Document summary -->
+        <Grid Grid.Row="1">
+            
+        </Grid>
+        <!-- Statements -->
+        <Grid Grid.Row="2">
+            
+        </Grid>
+        <!-- Transactions-->
+        <Grid Grid.Row="3">
+            
+        </Grid>
     </Grid>
 </Page>
