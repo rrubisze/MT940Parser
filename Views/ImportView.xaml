@@ -76,13 +76,12 @@
             </Viewbox>
             
         </StackPanel>
-        
+
         <StackPanel Grid.Row="1" 
                     Grid.Column="1" 
                     Margin="5,10,5,5"
                     Orientation="Vertical" 
                     HorizontalAlignment="Stretch">
-            <Label FontSize="16" Content="Importing..."></Label>
             <Controls:MetroProgressBar HorizontalAlignment="Stretch" Value="{Binding ImportProgress}" Height="15"/>
         </StackPanel>
 
