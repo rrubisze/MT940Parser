@@ -8,11 +8,13 @@ using System.Text;
 
 namespace MT940Parser.ViewModels
 {
-    public class ReportViewModel: BaseViewModel, IDisposable
+    public class ReportViewModel: BaseViewModel
     {
         private ParserContext _context;
         private ObservableCollection<Report> _reports;
         private Summary _summary;
+        private Report _selectedReport;
+        private ObservableCollection<Transaction> _currentTransactions;
 
         #region - PROPS -
         public ObservableCollection<Report> Reports 
@@ -25,6 +27,17 @@ namespace MT940Parser.ViewModels
             get => _summary; 
             set => Set(ref _summary, value); 
         }
+        public Report SelectedReport
+        {
+            get => _selectedReport;
+            set => Set(ref _selectedReport, value);
+        }
+        public ObservableCollection<Transaction> CurrentTransactions 
+        { 
+            get => _currentTransactions; 
+            set => Set(ref _currentTransactions, value); 
+        }
+
         #endregion
 
         public ReportViewModel(ParserContext context)
@@ -33,20 +46,22 @@ namespace MT940Parser.ViewModels
             _context.ContextChanged += ContextChanged;
         }
 
-        public void Dispose()
-        {
-            _context = null;
-        }
-
         private void ContextChanged(object sender, EventArgs e)
         {
+            InitializeProperties();
+        }
+
+        private void InitializeProperties()
+        {
             var reports = _context["Reports"] as IEnumerable<Report>;
-            if(reports != null && reports.Count() > 0)
+            if (reports == null && reports.Count() == 0)
             {
-                
+                return;
             }
 
             this.Reports = new ObservableCollection<Report>(reports);
+            this.SelectedReport = Reports.First();
+            this.CurrentTransactions = new ObservableCollection<Transaction>(SelectedReport.Transactions);
         }
 
     }

@@ -3,32 +3,84 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
       xmlns:local="clr-namespace:MT940Parser.Views"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="ReportView">
-
-    <Grid>
+    <Page.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="StatementDataTemplate" x:Shared="False">
+                <StackPanel Orientation="Vertical">
+                    <Label Content="{Binding Summary.Date}"></Label>
+                    <Label Content="{Binding Summary.BlockedBalance}"></Label>
+                    <Label Content="{Binding Summary.ClosingAvailableBalance}"></Label>
+                    <Label Content="{Binding Summary.OpeningBalance}"></Label>
+                    <Label Content="{Binding Summary.ClosingBalance}"></Label>
+                </StackPanel>
+            </DataTemplate>
+        </ResourceDictionary>
+    </Page.Resources>
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="2*"></RowDefinition>
             <RowDefinition Height="2*"></RowDefinition>
             <RowDefinition Height="5*"></RowDefinition>
         </Grid.RowDefinitions>
-        <Viewbox Stretch="UniformToFill" Grid.Row="0">
-            <Label Content="Reports"></Label>
-        </Viewbox>
-        <!--Document summary -->
+        
+        <Label Grid.Row="0" Content="Reports" FontSize="22" HorizontalAlignment="Center"></Label>
+            <!--Document summary -->
         <Grid Grid.Row="1">
-            
+            <Label Content="Summary"></Label>
         </Grid>
         <!-- Statements -->
         <Grid Grid.Row="2">
-            
+            <Controls:FlipView Margin="0 0 5 0"
+                               CircularNavigation="True"
+                               IsNavigationEnabled="true"
+                               IsBannerEnabled="False"
+                               ItemTemplate="{StaticResource StatementDataTemplate}"
+                               ItemsSource="{Binding Reports}"
+                               SelectedItem="{Binding SelectedReport}"
+                               NavigationButtonsPosition="Inside"
+                               Orientation="Horizontal"/>
         </Grid>
         <!-- Transactions-->
         <Grid Grid.Row="3">
-            
+            <DataGrid 
+                  Margin="5"
+                  AutoGenerateColumns="True"
+                  ItemsSource="{Binding CurrentTransactions}"
+                  RowHeaderWidth="0"
+                  Style="{DynamicResource MahApps.Styles.DataGrid.Azure}">
+                <!--<DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Title}"
+                                    EditingElementStyle="{StaticResource MahApps.Styles.TextBox.DataGrid.Editing}"
+                                    Header="Title" />
+                    <DataGridTextColumn Binding="{Binding Artist.Name}"
+                                    EditingElementStyle="{StaticResource MahApps.Styles.TextBox.DataGrid.Editing}"
+                                    Header="Artist" />
+                    <DataGridTextColumn Binding="{Binding Genre.Name}"
+                                    EditingElementStyle="{StaticResource MahApps.Styles.TextBox.DataGrid.Editing}"
+                                    Header="Genre" />
+                    <DataGridTemplateColumn Header="Price">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <controls:MetroProgressBar x:Name="PriceProgressBar"
+                                                       Height="20"
+                                                       Margin="5 2"
+                                                       VerticalAlignment="Center"
+                                                       Background="Transparent"
+                                                       Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                                                       Maximum="20"
+                                                       Minimum="0"
+                                                       Value="{Binding Price}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>-->
+            </DataGrid>
         </Grid>
     </Grid>
 </Page>
