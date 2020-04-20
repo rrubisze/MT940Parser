@@ -86,7 +86,7 @@ namespace MT940Parser.Models
     {
         public string Date { get; set; }
         public string Reference { get; set; }
-        public string DebitOrCredit { get; set; }
+        public DebitCredit DebitOrCredit { get; set; }
         public string Account { get; set; }
         public string AccountName { get; set; }
         public string Description { get; set; }
@@ -126,7 +126,7 @@ namespace MT940Parser.Models
             result.Append(",");
             result.Append(Reference);
             result.Append(",");
-            result.Append(DebitOrCredit);
+            result.Append(DebitOrCredit == DebitCredit.Credit? "Credit":"Debit");
             result.Append(",");
             result.Append(Account);
             result.Append(",");

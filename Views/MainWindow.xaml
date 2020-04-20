@@ -3,13 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MT940Parser"
         mc:Ignorable="d"
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
-        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks" 
-        xmlns:views="clr-namespace:MT940Parser.Views"
         GlowBrush="{DynamicResource AccentColorBrush}"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="800" Width="850">
     <Grid
         VerticalAlignment="Stretch" 
         HorizontalAlignment="Stretch">

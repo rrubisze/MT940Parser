@@ -60,7 +60,7 @@ namespace MT940Parser.Services
                     {
                         Date = transcation.ValueDate.ToIso8601DateOnly(),
                         Reference = transcation.Reference,
-                        DebitOrCredit = transcation.DebitCredit == DebitCredit.Debit ? "Debit" : "Credit",
+                        DebitOrCredit = transcation.DebitCredit,
                         Account = transcation.Details.Account,
                         AccountName = $"\"{transcation.Details.Name}\"",
                         Description = $"\"{transcation.Details.Description}\"",

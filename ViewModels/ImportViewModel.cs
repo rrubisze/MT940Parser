@@ -89,6 +89,7 @@ namespace MT940Parser.ViewModels
             IsParsingError = false;
             IsImportFinish = false;
             ImportProgress = 0;
+            _context["Reports"] = null;
 
             return Task.CompletedTask;
         }

@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Raptorious.SharpMt940Lib;
+using Transaction = MT940Parser.Models.Transaction;
 
 namespace MT940Parser.ViewModels
 {
@@ -15,6 +17,7 @@ namespace MT940Parser.ViewModels
         private Summary _summary;
         private Report _selectedReport;
         private ObservableCollection<Transaction> _currentTransactions;
+        private Totals _totals;
 
         #region - PROPS -
         public ObservableCollection<Report> Reports 
@@ -30,14 +33,25 @@ namespace MT940Parser.ViewModels
         public Report SelectedReport
         {
             get => _selectedReport;
-            set => Set(ref _selectedReport, value);
+            set 
+            {
+                Set(ref _selectedReport, value);
+                this.CurrentTransactions = new ObservableCollection<Transaction>(_selectedReport.Transactions);
+            }
         }
         public ObservableCollection<Transaction> CurrentTransactions 
         { 
             get => _currentTransactions; 
             set => Set(ref _currentTransactions, value); 
         }
-
+        public Totals Totals
+        {
+            get => _totals;
+            set
+            {
+                Set(ref _totals, value);
+            }
+        }
         #endregion
 
         public ReportViewModel(ParserContext context)
@@ -62,6 +76,12 @@ namespace MT940Parser.ViewModels
             this.Reports = new ObservableCollection<Report>(reports);
             this.SelectedReport = Reports.First();
             this.CurrentTransactions = new ObservableCollection<Transaction>(SelectedReport.Transactions);
+            Totals = new Totals()
+            {
+                TotalIncome = reports.SelectMany(x => x.Transactions).Where(x => x.DebitOrCredit == DebitCredit.Credit).Sum(x => x.Value),
+                TotalOutcome = reports.SelectMany(x => x.Transactions).Where(x => x.DebitOrCredit == DebitCredit.Debit).Sum(x => x.Value)
+            };
+
         }
 
     }

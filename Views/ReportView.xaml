@@ -6,25 +6,58 @@
       xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
       xmlns:local="clr-namespace:MT940Parser.Views"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
       Title="ReportView">
     <Page.Resources>
         <ResourceDictionary>
             <DataTemplate x:Key="StatementDataTemplate" x:Shared="False">
-                <StackPanel Orientation="Vertical">
-                    <Label Content="{Binding Summary.Date}"></Label>
-                    <Label Content="{Binding Summary.BlockedBalance}"></Label>
-                    <Label Content="{Binding Summary.ClosingAvailableBalance}"></Label>
-                    <Label Content="{Binding Summary.OpeningBalance}"></Label>
-                    <Label Content="{Binding Summary.ClosingBalance}"></Label>
-                </StackPanel>
+                <Grid Margin="45,5,45,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.ColumnSpan="3">
+                        <Label FontSize="14" Content="Account:"/>
+                        <Label FontSize="14" Content="{Binding Summary.Account}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0">
+                        <Label FontSize="14" Content="Opening Balance:"/>
+                        <Label FontSize="14" Content="{Binding Summary.OpeningBalance}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
+                        <Label FontSize="14" Content="Closing Balance:"/>
+                        <Label FontSize="14" Content="{Binding Summary.ClosingBalance}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="2">
+                        <Label FontSize="14" Content="Closing Available Balance:"/>
+                        <Label FontSize="14" Content="{Binding Summary.ClosingAvailableBalance}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0">
+                        <Label FontSize="14" Content="Blocked Balance:"/>
+                        <Label FontSize="14" Content="{Binding Summary.BlockedBalance}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1">
+                        <Label FontSize="14" Content="Date:"/>
+                        <Label FontSize="14" Content="{Binding Summary.Date}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="2">
+                        <Label FontSize="14" Content="Currency:"/>
+                        <Label FontSize="14" Content="{Binding Summary.Currency.Code}"/>
+                    </StackPanel>
+
+                </Grid>
             </DataTemplate>
         </ResourceDictionary>
     </Page.Resources>
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="2*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="2*"></RowDefinition>
             <RowDefinition Height="5*"></RowDefinition>
         </Grid.RowDefinitions>
@@ -32,7 +65,22 @@
         <Label Grid.Row="0" Content="Reports" FontSize="22" HorizontalAlignment="Center"></Label>
             <!--Document summary -->
         <Grid Grid.Row="1">
-            <Label Content="Summary"></Label>
+            <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Horizontal" Grid.Column="0">
+                    <Label FontSize="18" Content="Total Income"></Label>
+                    <Label FontSize="18" Foreground="Green" Content="{Binding Totals.TotalIncome}"></Label>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Grid.Column="1">
+                    <Label FontSize="18" Content="Total Outcome"></Label>
+                    <Label FontSize="18" Foreground="Red" Content="{Binding Totals.TotalOutcome}"></Label>
+                </StackPanel>
+            </Grid>
         </Grid>
         <!-- Statements -->
         <Grid Grid.Row="2">
@@ -43,6 +91,7 @@
                                ItemTemplate="{StaticResource StatementDataTemplate}"
                                ItemsSource="{Binding Reports}"
                                SelectedItem="{Binding SelectedReport}"
+                               MouseHoverBorderEnabled="False"
                                NavigationButtonsPosition="Inside"
                                Orientation="Horizontal"/>
         </Grid>
