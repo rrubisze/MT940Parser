@@ -6,7 +6,7 @@
         mc:Ignorable="d"
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
         GlowBrush="{DynamicResource AccentColorBrush}"
-        Title="MainWindow" Height="800" Width="850">
+        Title="MT940 Parser" Height="800" Width="850">
     <Grid
         VerticalAlignment="Stretch" 
         HorizontalAlignment="Stretch">

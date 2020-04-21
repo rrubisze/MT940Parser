@@ -99,6 +99,7 @@ namespace MT940Parser.ViewModels
             IsImportFinish = false;
             if (files.Count() > 1)
             {
+                IsImportFinish = true;
                 ErrorMessage = "You can drop only one file";
                 IsParsingError = true;
                 return;

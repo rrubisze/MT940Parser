@@ -7,7 +7,7 @@
       xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls" xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks" 
       xmlns:converter="clr-namespace:MT940Parser.Converter"
       mc:Ignorable="d" 
-      Title="ImportView">
+      Title="Importing">
     <Page.Resources>
         <ResourceDictionary>
             <Style x:Key="LargeTileStyle" TargetType="Controls:Tile">
