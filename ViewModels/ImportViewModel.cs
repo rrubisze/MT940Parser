@@ -105,6 +105,13 @@ namespace MT940Parser.ViewModels
                 return;
             }
             var file = files[0];
+            if(Path.GetExtension(file) != ".sta" )
+            {
+                IsImportFinish = true;
+                ErrorMessage = "You can use only .sta files";
+                IsParsingError = true;
+                return;
+            }
             await ProcessMT940FileAsync(file);
         }
 

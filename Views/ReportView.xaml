@@ -9,6 +9,7 @@
       Title="ReportView">
     <Page.Resources>
         <ResourceDictionary>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
             <DataTemplate x:Key="StatementDataTemplate" x:Shared="False">
                 <Grid Margin="45,5,45,5">
                     <Grid.ColumnDefinitions>
@@ -64,7 +65,7 @@
         
         <Label Grid.Row="0" Content="Reports" FontSize="22" HorizontalAlignment="Center"></Label>
             <!--Document summary -->
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" Visibility="{Binding AnyReport, Converter={StaticResource BooleanToVisibilityConverter}}">
             <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>
@@ -83,7 +84,7 @@
             </Grid>
         </Grid>
         <!-- Statements -->
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="2" Visibility="{Binding AnyReport, Converter={StaticResource BooleanToVisibilityConverter}}">
             <Controls:FlipView Margin="0 0 5 0"
                                CircularNavigation="True"
                                IsNavigationEnabled="true"
@@ -96,7 +97,7 @@
                                Orientation="Horizontal"/>
         </Grid>
         <!-- Transactions-->
-        <Grid Grid.Row="3">
+        <Grid Grid.Row="3" Visibility="{Binding AnyReport, Converter={StaticResource BooleanToVisibilityConverter}}">
             <DataGrid 
                   Margin="5"
                   AutoGenerateColumns="True"
